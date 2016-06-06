@@ -1,0 +1,8 @@
+Description:
+    Generates the migration file required to create the review model
+
+Example:
+    rails generate spina_projects:install
+
+    This will create:
+        db/migrate/timestamp_create_spina_projects_table.rb

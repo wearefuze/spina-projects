@@ -1,0 +1,11 @@
+.filters
+  = link_to spina.new_admin_project_path, class: 'button button-primary' do
+    = icon('plus')
+    New Project
+
+.dd#pages_list
+  - if @projects.any?
+    %ol.dd-list
+      = render partial: 'project', collection: @projects
+  - else
+    %em No projects yet

@@ -1,0 +1,55 @@
+= form_for [spina, :admin, @project], html: { autocomplete: "off", validate: false } do |f|
+  - content_for :notification_alert do
+    = error_explanation!(@project)
+
+  #page_content.tab-content.active
+    .table-container
+      %table.table.table-form
+        %tr
+          %td
+            Title
+          %td
+            = f.text_field :title
+        %tr
+          %td
+            Category
+          %td
+            = f.select(:project_category_id, options_from_collection_for_select(Spina::ProjectCategory.all, :id, :name), prompt: "Select Category...")
+        %tr
+          %td
+            Description
+          %td
+            = render 'spina/admin/shared/rich_text_field', f: f, field: :description
+        %tr
+          %td
+            Duration
+          %td
+            = f.text_field :duration
+        %tr
+          %td
+            Lat
+          %td
+            = f.text_field :lat
+        %tr
+          %td
+            Long
+          %td
+            = f.text_field :long
+        %tr
+          %td
+            Testimonial
+          %td
+            = f.text_area :testimonial
+        %t
+          %td
+            Testimonial Author
+          %td
+            = f.text_field :testimonial_name
+
+  %button.button.button-primary{ type: 'submit', data: { icon: 'o' } }
+    Save project
+
+  = link_to "Cancel", spina.admin_projects_path, class: 'button button-link'
+
+  - unless @project.new_record?
+    .pull-right= link_to "Delete", spina.admin_project_path(@project), method: :delete, confirm: "Are you sure you want to remove this project?", class: 'button button-link button-danger'

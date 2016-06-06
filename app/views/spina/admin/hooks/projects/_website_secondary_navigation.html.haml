@@ -1,0 +1,5 @@
+%li{ class: ('active' if current_admin_path.start_with?('/projects')) }
+  = link_to spina.admin_projects_path do
+    %i.icon.icon-preview
+    = plugin.name
+    %small Here's were you'll add and edit your portfolio
