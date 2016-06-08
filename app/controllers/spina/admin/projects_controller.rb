@@ -57,7 +57,7 @@ module Spina
       end
 
       def project_params
-        params.require(:project).permit(:title, :slug, :description, :lat, :long, :description, :duration, :project_category_id, :testimonial, :testimonial_name, :photo_collection_id)
+        params.require(:project).permit(:title, :slug, :description, :lat, :long, :description, :duration, :project_category_id, :testimonial, :testimonial_name, :photo_id, :photo_collection_id)
       end
     end
   end
