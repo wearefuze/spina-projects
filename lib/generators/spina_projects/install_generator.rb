@@ -18,6 +18,7 @@ module SpinaProjects
       def copy_migration_file
         migration_template "create_spina_projects_table.rb", Rails.root.join("db/migrate/create_spina_projects_table.rb")
         migration_template "create_spina_project_categories_table.rb", Rails.root.join("db/migrate/create_spina_project_categories_table.rb")
+        migration_template "add_photo_collection_id_to_projects_table.rb", Rails.root.join("db/migrate/add_photo_collection_id_to_projects_table.rb")
       end
 
     end

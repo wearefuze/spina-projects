@@ -37,6 +37,26 @@
             = f.text_field :long
         %tr
           %td
+            Photos
+          %td
+            = link_to spina.photo_collection_select_admin_photos_path(f.object_name, selected_photo_ids: (f.object.photo_collection.photo_ids if f.object.photo_collection_id.present?), hidden_field_id: 'object.photo_collection_id'), remote: true, class: 'media_picker clearfix' do
+              .placeholder.pull-right
+                %span.button.button-small.button-round
+                  %i.icon.icon-dots
+                  = t 'spina.pages.photos_picker'
+              = f.hidden_field :photo_collection_id, data: { hidden_field_id: 'photo_collection_id' }
+
+            = f.hidden_field :photo_tokens, value: f.object.photo_collection.photo_ids.join(",")
+            = f.hidden_field :photo_positions, value: f.object.photo_collection.photos.sorted_by_photo_collection.pluck(:photo_id).join(","), class: 'photo-positions'
+
+            .photo-collection
+              - if f.object.photo_collection.photos.sorted_by_photo_collection.any?
+                = render 'spina/admin/photos/photo_collection', photos: f.object.photo_collection.photos.sorted_by_photo_collection
+              - elsif f.object.photo_collection.photos.any?
+                = render 'spina/admin/photos/photo_collection', photos: f.object.photo_collection.photos
+
+        %tr
+          %td
             Testimonial
           %td
             = f.text_area :testimonial
