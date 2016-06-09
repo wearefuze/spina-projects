@@ -11,6 +11,7 @@ module Spina
 
     validates :title, :description, :lat, :long, :project_category_id, presence: true
     validates :slug, uniqueness: true
+    accepts_nested_attributes_for :photo_collection
 
     def materialized_path
       "/project/#{slug}"
