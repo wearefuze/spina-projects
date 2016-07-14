@@ -1,11 +1,23 @@
-.filters
-  = link_to spina.new_admin_project_path, class: 'button button-primary' do
-    = icon('plus')
-    New Project
+- content_for(:permanent_notice) do
+  - unless current_account.robots_allowed?
+    .permanent-notice.permanent-notice-info
+      = icon('search')
+      %p
+        =t 'spina.pages.invisible_to_search_engines'
+        %small=t 'spina.pages.invisible_to_search_engines_description'
 
-.dd#pages_list
+%header#header
+  .breadcrumbs= render_breadcrumbs seperator: '<div class="divider"></div>'
+  #header_actions
+    %span
+      = link_to spina.new_admin_project_path, class: 'button button-primary' do
+        = icon('plus')
+        New project
+
+.well
   - if @projects.any?
-    %ol.dd-list
-      = render partial: 'project', collection: @projects
+    .dd#pages_list
+      %ol.dd-list
+        = render partial: 'project', collection: @projects
   - else
     %em No projects yet
