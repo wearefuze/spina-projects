@@ -1,10 +1,10 @@
-![Spina CMS](http://www.denkwebsite.nl/spinacms.png)
+![Spina CMS](http://www.spinacms.com/spinacms.png)
 
 [Visit the website](http://www.spinacms.com)
 
-# Getting Started
+### Getting Started
 
-This is a News/Blog plugin for Spina CMS based on projects.
+This is a Portfolio plugin for Spina CMS based on projects.
 
 ```
 gem 'spina-projects'
@@ -18,16 +18,33 @@ rails g spina_projects:install
 
 This should copy the migration file required to create the Spina::Project model.
 
-In your Spina project, make sure your selected theme has 'projects' added to plugins
-
-```
-self.plugins = ['projects']
-```
-
-Restart your server and head over to '/admin/pages', you should see your plugin located below the Media Library.
+Restart your server and head over to '/admin', you should see your plugin located below the Media Library.
 
 That's all it takes to get the plugin working :)
 
-Now modify away and make your own plugins!
+### Consumer views
+
+##### Note: This plugin does not include the controller or view for the customer facing website, just the admin only.
+
+To get you going you'll need to add the routes:
+
+    Spina::Engine.routes.draw do
+        resources :projects, only: [:show, :index]
+    end
+
+Then create the the controller `projects_controller.rb` inside controllers > spina > projects and include your index and show actions:
+
+    def index
+      @projects = Spina::Project.order(created_at: :desc).all
+    end
+
+    def show
+      @project ||= Project.find_by(slug: params[:id])
+    end
+
+##### TODO: Create admin UI to manage `ProjectCategories`, in the short term, fire up the `$ rails console` and run:
+
+    pc = Spina::ProjectCategory.new(name: 'Foo bar', slug: 'foo-bar')
+    pc.save
 
 This project rocks and uses MIT-LICENSE.
