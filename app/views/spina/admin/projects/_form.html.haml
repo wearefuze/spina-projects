@@ -22,7 +22,8 @@
         .horizontal-form-label
           Category
         .horizontal-form-content
-          = f.select(:project_category_id, options_from_collection_for_select(Spina::ProjectCategory.all, :id, :name), { include_blank: "Select Category..." }, { class: 'select-dropdown' })
+          .select-dropdown
+            = f.select(:project_category_id, options_from_collection_for_select(Spina::ProjectCategory.all, :id, :name), prompt: "Select Category...")
       .horizontal-form-group
         .horizontal-form-label
           Description
