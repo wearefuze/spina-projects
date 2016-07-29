@@ -20,6 +20,7 @@ module SpinaProjects
         migration_template "create_spina_project_categories_table.rb", Rails.root.join("db/migrate/create_spina_project_categories_table.rb")
         migration_template "add_photo_collection_id_to_projects_table.rb", Rails.root.join("db/migrate/add_photo_collection_id_to_projects_table.rb")
         migration_template "add_photo_id_to_spina_projects_table.rb", Rails.root.join("db/migrate/add_photo_id_to_spina_projects_table.rb")
+        migration_template "add_completion_date_to_spina_projects.rb", Rails.root.join("db/migrate/add_completion_date_to_spina_projects.rb")
       end
 
     end

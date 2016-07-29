@@ -13,6 +13,8 @@ module Spina
     validates :slug, uniqueness: true
     accepts_nested_attributes_for :photo_collection
 
+    scope :newest_first, -> { order('completion_date DESC') }
+
     def materialized_path
       "/project/#{slug}"
     end
