@@ -22,7 +22,7 @@
         .horizontal-form-label
           Category
         .horizontal-form-content
-          .select-dropdown
+          %div{class: "select-dropdown #{@project.errors[:project_category_id].length > 0 ? 'error' : '' }"}
             = f.collection_select :project_category_id, Spina::ProjectCategory.all, :id, :name, { include_blank: 'Please Select' }
       .horizontal-form-group
         .horizontal-form-label
