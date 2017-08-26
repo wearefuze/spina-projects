@@ -4,7 +4,7 @@
       = icon('exclamation')
       .notification-message
         =t 'spina.notifications.alert'
-        %small= @article.errors.full_messages.join('<br />').html_safe
+        %small= @project.errors.full_messages.join('<br />').html_safe
       = link_to '#', data: {close_notification: true} do
         = icon('cross')
         
