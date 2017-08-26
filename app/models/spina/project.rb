@@ -3,7 +3,6 @@ module Spina
     attr_accessor :old_materialized_path
 
     belongs_to :project_category
-    belongs_to :photo
     belongs_to :photo_collection
 
     before_validation :set_slug
