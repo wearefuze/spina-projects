@@ -1,7 +1,7 @@
 module Spina
   module Admin
     class ProjectsController < AdminController
-      before_filter :set_breadcrumb
+      before_action :set_breadcrumb
       before_action :set_project, only: [:show, :edit, :update, :destroy]
 
       layout "spina/admin/admin"
