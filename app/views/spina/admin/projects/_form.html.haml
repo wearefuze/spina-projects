@@ -1,3 +1,13 @@
+- if @project.errors.any?
+  - content_for :notifications do
+    .notification.notification-danger.animated.fadeInRight
+      = icon('exclamation')
+      .notification-message
+        =t 'spina.notifications.alert'
+        %small= @article.errors.full_messages.join('<br />').html_safe
+      = link_to '#', data: {close_notification: true} do
+        = icon('cross')
+        
 = form_for [:admin, @project], multipart: true, html: { autocomplete: "off" } do |f|
   %header#header
     .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
@@ -7,9 +17,6 @@
         = icon('check')
         Save project
       = link_to t('spina.cancel'), spina.admin_projects_path, class: 'button button button-secondary'
-
-  - content_for :notification_alert do
-    = error_explanation!(@project)
 
   #page_content.tab-content.active.well
     .horizontal-form
