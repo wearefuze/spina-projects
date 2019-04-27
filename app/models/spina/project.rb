@@ -2,15 +2,16 @@ module Spina
   class Project < ActiveRecord::Base
     attr_accessor :old_materialized_path
 
-    belongs_to :project_category
-    belongs_to :photo_collection, optional: true
+    belongs_to :project_category, optional: true
+    belongs_to :image_collection, optional: true, class_name: 'Spina::ImageCollection'
+    belongs_to :image, class_name: 'Spina::Image'
 
     before_validation :set_slug
     after_save :rewrite_rule
 
-    validates :title, :description, :lat, :long, :project_category_id, presence: true
+    validates :title, :description, :lat, :long, :image, presence: true
     validates :slug, uniqueness: true
-    accepts_nested_attributes_for :photo_collection
+    accepts_nested_attributes_for :image_collection
 
     scope :newest_first, -> { order('completion_date DESC') }
 

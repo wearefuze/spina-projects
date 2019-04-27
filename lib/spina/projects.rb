@@ -1,3 +1,5 @@
+require 'spina'
+
 module Spina
   module Projects
     require 'spina/projects/engine'

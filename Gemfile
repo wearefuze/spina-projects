@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# Declare your gem's dependencies in projects.gemspec.
+# Declare your gem's dependencies in spina-projects.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
 gemspec
@@ -10,5 +10,7 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-# To use debugger
-# gem 'debugger'
+# To use a debugger
+# gem 'byebug', group: [:development, :test]
+gem 'pry-rails', group: [:development, :test]
+gem 'spina', git: 'https://github.com/SpinaCMS/Spina'

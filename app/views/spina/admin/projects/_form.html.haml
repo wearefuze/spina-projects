@@ -7,86 +7,101 @@
         %small= @project.errors.full_messages.join('<br />').html_safe
       = link_to '#', data: {close_notification: true} do
         = icon('cross')
-        
-= form_for [:admin, @project], multipart: true, html: { autocomplete: "off" } do |f|
-  %header#header
-    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
-    #header_actions
-      %button.button.button-primary{ type: 'submit' }
-        = icon('check')
-        Save project
-      = link_to t('spina.cancel'), spina.admin_projects_path, class: 'button button button-secondary'
+%header#header
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
-  #page_content.tab-content.active.well
-    .horizontal-form
-      .horizontal-form-group
-        .horizontal-form-label
-          Title
-        .horizontal-form-content
-          = f.text_field :title
-      .horizontal-form-group
-        .horizontal-form-label
-          Category
-        .horizontal-form-content
-          %div{class: "select-dropdown #{@project.errors[:project_category_id].length > 0 ? 'error' : '' }"}
-            = f.collection_select :project_category_id, Spina::ProjectCategory.all, :id, :name, { include_blank: 'Please Select' }
-      .horizontal-form-group
-        .horizontal-form-label
-          Description
-        .horizontal-form-content
-          = render 'spina/admin/shared/rich_text_field', f: f, field: :description
-      .horizontal-form-group
-        .horizontal-form-label
-          Duration
-        .horizontal-form-content
-          = f.text_field :duration
-      .horizontal-form-group
-        .horizontal-form-label
-          Completion date
-        .horizontal-form-content
-          = f.text_field :completion_date, value: (@project.completion_date.try(:strftime, "%d-%m-%Y") unless @project.new_record?), class: 'datepicker'
-      .horizontal-form-group
-        .horizontal-form-label
-          Latitude co-ordinate
-        .horizontal-form-content
-          = f.text_field :lat
-      .horizontal-form-group
-        .horizontal-form-label
-          Longitude co-ordinate
-        .horizontal-form-content
-          = f.text_field :long
-      .horizontal-form-group
-        .horizontal-form-label
-          Photos
-        .horizontal-form-content
-          = link_to spina.photo_collection_select_admin_photos_path(f.object_name, selected_photo_ids: (f.object.photo_collection.photo_ids if f.object.photo_collection_id.present?), hidden_field_id: 'photo_collection_id'), remote: true, class: 'media_picker clearfix' do
+  #header_actions
+    %button.button.button-primary{ type: 'submit' }
+      = icon('check')
+      Save project
+    = link_to t('spina.cancel'), spina.admin_projects_path, class: 'button button button-secondary'
+
+#page_content.tab-content.active.well
+  .horizontal-form
+    .horizontal-form-group
+      .horizontal-form-label
+        Title
+      .horizontal-form-content
+        = f.text_field :title
+    .horizontal-form-group
+      .horizontal-form-label
+        Category
+      .horizontal-form-content
+        %div{class: "select-dropdown #{@project.errors[:project_category_id].length > 0 ? 'error' : '' }"}
+          = f.collection_select :project_category_id, Spina::ProjectCategory.all, :id, :name, { include_blank: 'Please Select' }
+    .horizontal-form-group
+      .horizontal-form-label
+        Description
+      .horizontal-form-content
+        = render 'spina/admin/shared/rich_text_field', f: f, field: :description
+    .horizontal-form-group
+      .horizontal-form-label
+        Duration
+      .horizontal-form-content
+        = f.text_field :duration
+    .horizontal-form-group
+      .horizontal-form-label
+        Completion date
+      .horizontal-form-content
+        = f.text_field :completion_date, value: (@project.completion_date.try(:strftime, "%d-%m-%Y") unless @project.new_record?), class: 'datepicker'
+    .horizontal-form-group
+      .horizontal-form-label
+        Latitude co-ordinate
+      .horizontal-form-content
+        = f.text_field :lat
+    .horizontal-form-group
+      .horizontal-form-label
+        Longitude co-ordinate
+      .horizontal-form-content
+        = f.text_field :long
+    .horizontal-form-group
+      .horizontal-form-label
+        Feature image
+      .horizontal-form-content
+        = link_to admin_media_picker_path(selected_ids: [f.object.image_id], hidden_field_id: 'media_picker_image_id'), remote: true, class: 'media_picker clearfix' do
+          - if f.object&.image&.file&.attached?
             .placeholder.pull-right
               %span.button.button-small.button-round
                 %i.icon.icon-dots
-                = t 'spina.pages.photos_picker'
-          = f.hidden_field :photo_collection_id, data: { hidden_field_id: 'photo_collection_id' }
-          = f.fields_for :photo_collection, f.object.photo_collection || f.object.build_photo_collection do |ff|
-            = ff.hidden_field :photo_tokens, value: f.object.photo_collection.try(:photo_ids).try(:join,",")
-            = ff.hidden_field :photo_positions, value: f.object.photo_collection.try(:photos).try(:sorted_by_photo_collection).try(:pluck, :photo_id).try(:join,","), class: 'photo-positions'
+                = t('spina.images.choose_image')
+            .image
+              = image_tag variant(f.object.image.file, resize: "300x300^", crop: "300x300+0+0")
+          - else
+            .placeholder
+              %span.button.button-small.button-round
+                %i.icon.icon-dots
+                = t 'spina.pages.image_picker'
+          = f.hidden_field :image_id, data: { hidden_field_id: 'media_picker_image_id' }
 
-          .photo-collection
-            - if f.object.photo_collection.present?
-              - if f.object.photo_collection.photos.sorted_by_photo_collection.any?
-                = render 'spina/admin/photos/photo_collection', photos: f.object.photo_collection.photos.sorted_by_photo_collection
-              - elsif f.object.photo_collection.photos.any?
-                = render 'spina/admin/photos/photo_collection', photos: f.object.photo_collection.photos
+    .horizontal-form-group
+      .horizontal-form-label
+        Images
+      .horizontal-form-content
+        = f.fields_for :image_collection, f.object.image_collection || f.object.build_image_collection do |ff|
+          = link_to admin_media_picker_path(selected_ids: ff.object.image_ids, hidden_field_id: "media_picker_#{ff.object.object_id}", multiple: true), remote: true, class: 'media_picker clearfix' do
+            .placeholder
+              %span.button.button-small.button-round
+                %i.icon.icon-dots
+                = t('spina.images.choose_images')
 
-      .horizontal-form-group
-        .horizontal-form-label
-          Testimonial
-        .horizontal-form-content
-          = f.text_area :testimonial
-      .horizontal-form-group
-        .horizontal-form-label
-          Testimonial Author
-        .horizontal-form-content
-          = f.text_field :testimonial_name
+            .image-collection
+              - if ff.object.images.any?
+                = render 'spina/admin/image_collections/image_collection', images: ff.object.images.sorted_by_image_collection
 
-  - unless @project.new_record?
-    .pull-right= link_to t('spina.permanently_delete'), spina.admin_project_path(@project), method: :delete, data: { confirm: t('spina.pages.delete_confirmation', subject: @project.title) }, class: 'button button-link button-danger'
+            = ff.hidden_field :image_tokens, value: ff.object.image_ids.join(","), data: { hidden_field_id: "media_picker_#{ff.object.object_id}" }
+            = ff.hidden_field :image_positions, value: ff.object.images.sorted_by_image_collection.pluck(:image_id).join(","), class: 'image-positions'
+
+    .horizontal-form-group
+      .horizontal-form-label
+        Testimonial
+      .horizontal-form-content
+        = f.text_area :testimonial
+    .horizontal-form-group
+      .horizontal-form-label
+        Testimonial Author
+      .horizontal-form-content
+        = f.text_field :testimonial_name
+
+- unless @project.new_record?
+  .pull-right= link_to t('spina.permanently_delete'), spina.admin_project_path(@project.id), method: :delete, data: { confirm: t('spina.pages.delete_confirmation', subject: @project.title) }, class: 'button button-link button-danger'
