@@ -1,1 +1,2 @@
-= render 'form'
+= form_for [:admin, @project], multipart: true, html: { autocomplete: "off" } do |f|
+  = render 'form', f: f

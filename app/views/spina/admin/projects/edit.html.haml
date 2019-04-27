@@ -1,1 +1,2 @@
-= render 'form'
+= form_for [:admin, @project], url: spina.admin_project_path(@project.id), multipart: true, html: { autocomplete: "off" } do |f|
+  = render 'form', f: f

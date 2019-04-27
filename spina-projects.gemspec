@@ -8,13 +8,13 @@ Gem::Specification.new do |s|
   s.name        = "spina-projects"
   s.version     = Spina::Projects::VERSION
   s.authors     = ["Dan Mitchell"]
-  s.email       = ["dan@digitalreflow.co.uk"]
-  s.homepage    = "http://www.digitalreflow.com"
-  s.summary     = "News/Blog plugin for Spina"
-  s.description = "Plugin for Spina CMS to include a news or blog on your website"
+  s.email       = ["dan@danmitchell.co.uk"]
+  s.homepage    = "http://www.danmitchell.co.uk"
+  s.summary     = "Projects plugin for Spina"
+  s.description = "Plugin for Spina CMS to include projects on your website"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
 
+  s.add_runtime_dependency 'spina', '>= 1.0.0'
   s.add_dependency "rails", ">= 5.0"
 end
