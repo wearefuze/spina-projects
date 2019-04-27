@@ -1,4 +1,5 @@
 require 'spina'
+require 'friendly_id'
 
 module Spina
   module Projects

@@ -12,9 +12,13 @@ Gem::Specification.new do |s|
   s.homepage    = "http://www.danmitchell.co.uk"
   s.summary     = "Projects plugin for Spina"
   s.description = "Plugin for Spina CMS to include projects on your website"
+  s.license     = 'MIT'
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
+  s.add_runtime_dependency 'friendly_id', '~> 5.2', '>= 5.2.1'
   s.add_runtime_dependency 'spina', '>= 1.0.0'
-  s.add_dependency "rails", ">= 5.0"
+
+  s.add_development_dependency 'pg'
+  s.add_development_dependency 'pry-rails', '~> 0'
 end
