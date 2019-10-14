@@ -1,6 +1,8 @@
 class CreateSpinaProjectsTable < ActiveRecord::Migration[4.2]
   def change
     create_table :spina_projects do |t|
+      t.string :seo_title
+      t.string :seo_description
       t.string :title
       t.string :slug
       t.text :description

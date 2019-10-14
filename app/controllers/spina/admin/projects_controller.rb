@@ -58,6 +58,8 @@ module Spina
 
       def project_params
         params.require(:project).permit(
+          :seo_title,
+          :seo_description,
           :title,
           :slug,
           :description,
