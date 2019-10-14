@@ -4,8 +4,6 @@ class CreateSpinaProjectsTable < ActiveRecord::Migration[4.2]
       t.string :title
       t.string :slug
       t.text :description
-      t.string :lat
-      t.string :long
       t.string :duration
       t.integer :project_category_id
       t.text :testimonial
