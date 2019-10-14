@@ -61,6 +61,7 @@ module Spina
           :title,
           :slug,
           :description,
+          :location,
           :duration,
           :completion_date,
           :project_category_id,
