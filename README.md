@@ -24,7 +24,7 @@ To get you going you'll need to add the routes:
 
 ```ruby
 Spina::Engine.routes.draw do
-  resources :projects, only: [:show, :index], path: 'projects'
+  resources :projects, only: [:show, :index]
 end
 ```
 
