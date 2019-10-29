@@ -1,20 +1,14 @@
-![Spina CMS](http://www.spinacms.com/spinacms.png)
-
-[Visit the website](http://www.spinacms.com)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dankmitchell/spina-projects)](https://dependabot.com)
 
 ### Getting Started
 
 This is a Portfolio plugin for Spina CMS based on projects.
 
-```ruby
-  gem 'spina-projects'
-```
+`gem 'spina-projects'`
 
 Run the migration installer to get started.
 
-```ruby
-  rails g spina_projects:install
-```
+`rails g spina_projects:install`
 
 This should copy the migration file required to create the Spina::Project model.
 
@@ -29,27 +23,40 @@ That's all it takes to get the plugin working :)
 To get you going you'll need to add the routes:
 
 ```ruby
-  Spina::Engine.routes.draw do
-    resources :projects, only: [:show, :index]
-  end
+Spina::Engine.routes.draw do
+  resources :projects, only: [:show, :index]
+end
 ```
 
-Then create the the controller `projects_controller.rb` inside controllers > spina > projects and include your index and show actions:
+Then create the the controller `controllers/spina/projects_controller.rb` and include your index and show actions:
 
 ```ruby
-  def index
-    @projects = Spina::Project.newest_first
-  end
+module Spina
+  class ProjectsController < ApplicationController
+    before_action :set_page
+    layout 'layouts/default/application'
 
-  def show
-    @project Spina::Project.friendly.find(params[:id])
+    def index
+      @projects = Spina::Project.order(created_at: :desc)
+    end
+
+    def show
+      @project = Spina::Project.friendly.find(params[:id])
+    end
+
+    def set_page
+      @page = Spina::Page.find_or_create_by(name: 'projects') do |page|
+        page.title = 'Projects'
+        page.link_url = '/projects'
+        page.deletable = false
+      end
+    end
   end
+end
 ```
 
 ##### TODO: Create admin UI to manage `ProjectCategory`, in the short term, fire up the `$ rails console` and run:
 
-```ruby
-  Spina::ProjectCategory.create(name: 'Commercial')
-```
+`Spina::ProjectCategory.create(name: 'Commercial')`
 
 This project rocks and uses MIT-LICENSE.
