@@ -1,5 +1,11 @@
 %li.dd-item
   %div.dd-item-inner
+    - if project.live?
+      %div.project-status.live
+    - if project.draft?
+      %div.project-status.draft
+    - if project.scheduled?
+      %div.project-status.scheduled
     = link_to spina.edit_admin_project_path(project.id), class: 'button button-link button-small sortable-link' do
       = project.title
     %span.pull-right
