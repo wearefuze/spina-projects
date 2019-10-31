@@ -9,6 +9,8 @@ class CreateSpinaProjectsTable < ActiveRecord::Migration[4.2]
       t.string :location
       t.string :duration
       t.datetime :completion_date
+      t.date :publish_date
+      t.integer :draft, default: true
       t.integer :project_category_id
       t.text :testimonial
       t.string :testimonial_name
