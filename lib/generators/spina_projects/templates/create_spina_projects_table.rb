@@ -16,6 +16,7 @@ class CreateSpinaProjectsTable < ActiveRecord::Migration[4.2]
       t.string :testimonial_name
       t.integer :image_collection_id
       t.integer :image_id
+      t.integer :position
       t.timestamps
     end
   end

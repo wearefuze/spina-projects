@@ -21,7 +21,7 @@
 .well
   - if @projects.any?
     .dd#pages_list
-      %ol.dd-list
+      %ol.dd-list.sortable
         = render partial: 'project', collection: @projects
   - else
     %em No projects yet

@@ -26,5 +26,7 @@ module Spina
     def draft?
       draft == 1
     end
+
+    scope :newest_first, -> { order('completion_date DESC') }
   end
 end
