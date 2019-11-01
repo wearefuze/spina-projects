@@ -1,0 +1,19 @@
+.project {
+  cursor: move;
+}
+
+.ui-sortable-placeholder {
+  position: relative;
+  visibility: visible !important;
+}
+
+.ui-sortable-placeholder::before {
+  border: 1px dashed #ddd;
+  box-sizing: border-box;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
