@@ -12,6 +12,19 @@ module Spina
     validates :slug, uniqueness: true
     accepts_nested_attributes_for :image_collection
 
-    scope :newest_first, -> { order('completion_date DESC') }
+    scope :live, -> { where('publish_date <= ? AND draft = ?', Date.today, 0) }
+    scope :newest_first, -> { order('publish_date DESC') }
+
+    def live?
+      true if self.publish_date <= Date.today && draft == 0
+    end
+
+    def scheduled?
+      true if self.publish_date >= Date.today && draft == 0
+    end
+
+    def draft?
+      draft == 1
+    end
   end
 end

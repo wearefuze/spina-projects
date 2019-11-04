@@ -67,6 +67,8 @@ module Spina
           :duration,
           :completion_date,
           :project_category_id,
+          :draft,
+          :publish_date,
           :testimonial,
           :testimonial_name,
           :image_id,
