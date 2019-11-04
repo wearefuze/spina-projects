@@ -26,5 +26,8 @@ module Spina
     def draft?
       draft == 1
     end
+
+    scope :by_position, -> { order('position ASC') }
+
   end
 end

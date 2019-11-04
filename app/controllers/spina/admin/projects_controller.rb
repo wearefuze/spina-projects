@@ -10,7 +10,7 @@ module Spina
       end
 
       def index
-        @projects = Project.all
+        @projects = Project.by_position
       end
 
       def new
@@ -44,6 +44,14 @@ module Spina
       def destroy
         @project.destroy
         redirect_to spina.admin_projects_url
+      end
+
+      def sort
+        params[:order].each do |key, value|
+          Project.find(value[:id]).update(position: value[:position])
+        end
+
+        head :ok
       end
 
       private

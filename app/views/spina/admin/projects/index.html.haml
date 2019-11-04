@@ -11,7 +11,7 @@
     = render_breadcrumbs seperator: '<div class="divider"></div>'
     = link_to projects_path, target: :blank, class: 'button button-hollow button-small' do
       %i.icon.icon-export{style: 'margin: 0'}
-      
+
   #header_actions
     %span
       = link_to spina.new_admin_project_path, class: 'button button-primary' do
@@ -20,8 +20,63 @@
 
 .well
   - if @projects.any?
-    .dd#pages_list
-      %ol.dd-list
+    .dd
+      %ol.dd-list.sortable
         = render partial: 'project', collection: @projects
   - else
     %em No projects yet
+
+:javascript
+  const set_positions = function() {
+    $(".project").each(function(i) {
+      $(this).attr("data-pos", i + 1);
+    });
+  };
+
+  const ready = function() {
+    set_positions();
+    $(".sortable").sortable();
+    $(".sortable")
+      .sortable()
+      .bind("sortupdate", function() {
+        var updated_order;
+        updated_order = [];
+        set_positions();
+        $(".project").each(function(i) {
+          updated_order.push({
+            id: $(this).data("id"),
+            position: i + 1
+          });
+        });
+        $.ajax({
+          type: "PUT",
+          url: "/admin/projects/sort",
+          data: {
+            order: updated_order
+          }
+        });
+      });
+  };
+
+  $(document).on("turbolinks:load", ready());
+
+:css
+  .project {
+    cursor: move;
+  }
+
+  .ui-sortable-placeholder {
+    position: relative;
+    visibility: visible !important;
+  }
+
+  .ui-sortable-placeholder::before {
+    border: 1px dashed #ddd;
+    box-sizing: border-box;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
