@@ -11,7 +11,7 @@
     = render_breadcrumbs seperator: '<div class="divider"></div>'
     = link_to projects_path, target: :blank, class: 'button button-hollow button-small' do
       %i.icon.icon-export{style: 'margin: 0'}
-      
+
   #header_actions
     %span
       = link_to spina.new_admin_project_path, class: 'button button-primary' do
@@ -20,7 +20,7 @@
 
 .well
   - if @projects.any?
-    .dd#pages_list
+    .dd
       %ol.dd-list.sortable
         = render partial: 'project', collection: @projects
   - else
