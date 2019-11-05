@@ -37,7 +37,7 @@ module Spina
     layout 'layouts/default/application'
 
     def index
-      @projects = Spina::Project.live.order(created_at: :desc)
+      @projects = Spina::Project.live.by_position
     end
 
     def show

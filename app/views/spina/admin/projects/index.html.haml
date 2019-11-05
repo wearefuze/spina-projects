@@ -60,7 +60,7 @@
 
   $(document).on("turbolinks:load", ready());
 
-:css
+:scss
   .project {
     cursor: move;
   }
@@ -68,15 +68,43 @@
   .ui-sortable-placeholder {
     position: relative;
     visibility: visible !important;
+
+    &::before {
+      border: 1px dashed #ddd;
+      box-sizing: border-box;
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
   }
 
-  .ui-sortable-placeholder::before {
-    border: 1px dashed #ddd;
-    box-sizing: border-box;
-    content: "";
-    height: 100%;
+  .project-status {
+    height: 52px;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;
+    transition: all 0.2s;
+    width: 7px;
+
+    &.live {
+      background-color: #3adb76;
+    }
+
+    &.draft {
+      background-color: #767676;
+    }
+
+    &.scheduled {
+      background-color: #1779ba;
+    }
+  }
+
+  .dd-item:hover {
+    .project-status {
+      opacity: 0.7;
+      width: 9px;
+    }
   }
