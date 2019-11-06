@@ -1,2 +1,4 @@
-%li{ class: ('active' if current_admin_path.start_with?('/projects')) }
+%li{ class: ('active' if current_page?(admin_projects_path)) }
   = link_to 'Projects', spina.admin_projects_path
+%li{ class: ('active' if current_page?(admin_projects_categories_path)) }
+  = link_to 'Projects Categories', spina.admin_projects_categories_path

@@ -27,13 +27,13 @@
     %em No projects yet
 
 :javascript
-  const set_positions = function() {
+  var set_positions = function() {
     $(".project").each(function(i) {
       $(this).attr("data-pos", i + 1);
     });
   };
 
-  const ready = function() {
+  var ready = function() {
     set_positions();
     $(".sortable").sortable();
     $(".sortable")

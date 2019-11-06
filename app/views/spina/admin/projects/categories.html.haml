@@ -1,0 +1,100 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs seperator: '<div class="divider"></div>'
+
+.permanent-notice.permanent-notice-info
+  %p
+    Blank categories will not be saved
+    %small Please leave the input field blank if you don't need a category
+
+= form_tag("/admin/projects/categories_update", remote: true, method: "PUT", class: "category-form") do
+  .well
+    .horizontal-form.category-form-group-parent
+      - @categories.each do |category|
+        .horizontal-form-group.category-form-group{ data: { parent: category.name.parameterize } }
+          .horizontal-form-label
+            = category.name
+          .horizontal-form-content
+            = text_field_tag category.name.parameterize, category.name, class: "category-form-field", disabled: true, data: { remove: false }
+            %button.button.button-mini.button-link.pull-right.remove-category{ data: { name: category.name.parameterize } } Remove Category
+
+      .horizontal-form-group.category-form-group.category-form-group-cloneable
+        .horizontal-form-label
+          .category-label
+            Category name
+        .horizontal-form-content
+          = text_field_tag "project_category", "", placeholder: "Add a project category", class: "category-form-field category-form-field-new", data: { remove: false }
+
+  .category-form-actions
+    = submit_tag "Update categories", class: "button button-primary"
+    %button.button.add-category
+      = icon('plus')
+      Add category
+
+:javascript
+  var ready = function() {
+    let project_categories = [];
+
+    $(".add-category").on("click", function() {
+      event.preventDefault();
+
+      const category_group = $(".category-form-group-cloneable:first").clone()
+      category_group.find(".category-form-field").val("");
+      category_group.find(".category-label").text("Category name");
+      category_group.appendTo($(".category-form-group-parent"));
+    });
+
+    $(".remove-category").on("click", function() {
+      event.preventDefault();
+
+      const input = $("#" + $(this).attr("data-name"))
+      input.attr("data-remove", true);
+      $(this)
+        .parent()
+        .parent()
+        .hide()
+        .appendTo(".category-form");
+    });
+
+    $(".category-form-field").on("input", function() {
+      const label = $(this)
+        .parent()
+        .parent()
+        .find(".category-label");
+      $(this).val() !== "" ? label.text($(this).val()) : label.text("Category name");
+    })
+
+    $(".category-form").on("submit", function() {
+      $(".category-form-field").each(function(i, field) {
+        if(field.value !== "") {
+          project_categories.push({
+            category_name: field.value,
+            category_remove: field.getAttribute("data-remove")
+          });
+        }
+      });
+
+      $.ajax({
+        type: "PUT",
+        url: "/admin/projects/categories_update",
+        data: { categories: project_categories },
+        success: function() {
+          window.location = "/admin/projects-categories"
+        }
+      });
+    })
+  }
+
+  $(document).on("turbolinks:load", ready());
+
+
+:scss
+  .category-group {
+    .button {
+      margin: 4px 0 0 0;
+    }
+  }
+
+  .category-form-actions {
+    margin: 0 -20px;
+  }

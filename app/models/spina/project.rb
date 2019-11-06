@@ -14,6 +14,7 @@ module Spina
 
     scope :live, -> { where('publish_date <= ? AND draft = ?', Date.today, 0) }
     scope :newest_first, -> { order('publish_date DESC') }
+    scope :by_position, -> { order('position ASC') }
 
     def live?
       true if self.publish_date <= Date.today && draft == 0
@@ -26,8 +27,5 @@ module Spina
     def draft?
       draft == 1
     end
-
-    scope :by_position, -> { order('position ASC') }
-
   end
 end

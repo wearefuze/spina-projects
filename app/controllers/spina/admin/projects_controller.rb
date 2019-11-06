@@ -54,6 +54,22 @@ module Spina
         head :ok
       end
 
+      def categories
+        @categories = Spina::ProjectCategory.all
+      end
+
+      def categories_update
+        if params[:categories].present?
+          params[:categories].each do |key, value|
+            category = Spina::ProjectCategory.find_by_name(value[:category_name])
+            Spina::ProjectCategory.create(name: value[:category_name]) if category.blank?
+            category.destroy if value[:category_remove] == "true"
+          end
+        end
+
+        head :ok
+      end
+
       private
 
       def set_project
