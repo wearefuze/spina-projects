@@ -13,6 +13,9 @@
       %i.icon.icon-export{style: 'margin: 0'}
 
   #header_actions
+    = link_to '#pages_list', class: 'button sort-switch', data: {change_order: t('spina.pages.change_order'), done_changing_order: t('spina.pages.done_changing_order')} do
+      = icon('random')
+      = t('spina.pages.change_order')
     %span
       = link_to spina.new_admin_project_path, class: 'button button-primary' do
         = icon('plus')
@@ -20,67 +23,13 @@
 
 .well
   - if @projects.any?
-    .dd
-      %ol.dd-list.sortable
+    .dd#pages_list{data: {"sort-url": spina.sort_admin_projects_url}}
+      %ol.dd-list
         = render partial: 'project', collection: @projects
   - else
     %em No projects yet
 
-:javascript
-  const set_positions = function() {
-    $(".project").each(function(i) {
-      $(this).attr("data-pos", i + 1);
-    });
-  };
-
-  const ready = function() {
-    set_positions();
-    $(".sortable").sortable();
-    $(".sortable")
-      .sortable()
-      .bind("sortupdate", function() {
-        var updated_order;
-        updated_order = [];
-        set_positions();
-        $(".project").each(function(i) {
-          updated_order.push({
-            id: $(this).data("id"),
-            position: i + 1
-          });
-        });
-        $.ajax({
-          type: "PUT",
-          url: "/admin/projects/sort",
-          data: {
-            order: updated_order
-          }
-        });
-      });
-  };
-
-  $(document).on("turbolinks:load", ready());
-
 :scss
-  .project {
-    cursor: move;
-  }
-
-  .ui-sortable-placeholder {
-    position: relative;
-    visibility: visible !important;
-
-    &::before {
-      border: 1px dashed #ddd;
-      box-sizing: border-box;
-      content: "";
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
-  }
-
   .project-status {
     height: 52px;
     left: 0;
@@ -100,12 +49,5 @@
 
     &.scheduled {
       background-color: #1779ba;
-    }
-  }
-
-  .dd-item:hover {
-    .project-status {
-      opacity: 0.7;
-      width: 9px;
     }
   }
