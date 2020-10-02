@@ -1,14 +1,14 @@
-%li.dd-item.project{ data: { 'id': project.id } }
-  %div.dd-item-inner
+%li.dd-item{data: {id: project.id}}
+  .dd-item-inner
     - if project.live?
-      %div.project-status.live
+      .project-status.live
     - if project.draft?
-      %div.project-status.draft
+      .project-status.draft
     - if project.scheduled?
-      %div.project-status.scheduled
-    = link_to spina.edit_admin_project_path(project.id), class: 'button button-link button-small sortable-link' do
+      .project-status.scheduled
+    = link_to spina.edit_admin_project_path(project), class: 'button button-link button-small sortable-link' do
       = project.title
     %span.pull-right
-      = link_to spina.edit_admin_project_path(project.id), class: 'button button-small button-link dd-nodrag' do
+      = link_to spina.edit_admin_project_path(project), class: 'button button-small button-link dd-nodrag' do
         = icon('pencil-outline')
         = t('spina.edit')

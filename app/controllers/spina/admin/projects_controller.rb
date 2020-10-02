@@ -47,10 +47,9 @@ module Spina
       end
 
       def sort
-        params[:order].each do |key, value|
-          Project.find(value[:id]).update(position: value[:position])
+        params[:list].each_pair do |parent_pos, parent_node|
+          update_project_position(parent_node, parent_pos)
         end
-
         head :ok
       end
 
@@ -62,6 +61,10 @@ module Spina
 
       def set_breadcrumb
         add_breadcrumb "Projects", spina.admin_projects_path
+      end
+
+      def update_project_position(project, position)
+        Spina::Project.update(project[:id], position: position.to_i + 1)
       end
 
       def project_params
@@ -81,7 +84,7 @@ module Spina
           :testimonial_name,
           :image_id,
           :image_collection_id,
-          image_collection_attributes: [:image_tokens, :image_positions]
+          image_collection_attributes: [:image_tokens, :image_positions],
         )
       end
     end
