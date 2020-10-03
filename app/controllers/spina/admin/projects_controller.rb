@@ -69,21 +69,21 @@ module Spina
 
       def project_params
         params.require(:project).permit(
-          :seo_title,
-          :seo_description,
-          :title,
-          :slug,
-          :description,
-          :location,
-          :duration,
           :completion_date,
-          :project_category_id,
+          :description,
           :draft,
-          :publish_date,
-          :testimonial,
-          :testimonial_name,
-          :image_id,
+          :duration,
           :image_collection_id,
+          :image_id,
+          :location,
+          :project_category_id,
+          :publish_date,
+          :seo_description,
+          :seo_title,
+          :slug,
+          :testimonial_name,
+          :testimonial,
+          :title,
           image_collection_attributes: [:image_tokens, :image_positions],
         )
       end

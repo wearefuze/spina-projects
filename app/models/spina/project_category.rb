@@ -1,7 +1,7 @@
 module Spina
   class ProjectCategory < ActiveRecord::Base
-    validates :name, presence: true
-
     has_many :projects
+
+    validates :name, presence: true
   end
 end

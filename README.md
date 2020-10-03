@@ -14,8 +14,6 @@ This should copy the migration file required to create the Spina::Project model.
 
 Restart your server and head over to '/admin', you should see your plugin located below the Media Library.
 
-That's all it takes to get the plugin working :)
-
 ### Consumer views
 
 ##### Note: This plugin does not include the controller or view for the customer facing website, just the admin only.
@@ -37,11 +35,11 @@ module Spina
     layout 'layouts/default/application'
 
     def index
-      @projects = Spina::Project.live.by_position
+      @projects = Spina::Project.is_live.by_position
     end
 
     def show
-      @project = Spina::Project.friendly.find(params[:id])
+      @project = Spina::Project.find(params[:id])
     end
 
     def set_page
